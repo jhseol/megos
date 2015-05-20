@@ -446,12 +446,6 @@ func (mm *MesosMasterClient) MesosMasterRegistrar() (*MesosMasterRegistrar, erro
     return nil, err
   }
 
-  encoded, err := json.Marshal(s)
-  if err != nil {
-    fmt.Errorf("%v\n", err)
-    return nil, err
-  }
-
   return s, nil
 }
 
