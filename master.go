@@ -2,7 +2,6 @@ package megos
 
 import (
   "encoding/json"
-  "errors"
   "fmt"
 )
 
