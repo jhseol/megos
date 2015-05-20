@@ -453,11 +453,6 @@ func (mm *MesosMasterClient) MesosMasterRegistrar() (*MesosMasterRegistrar, erro
     return nil, err
   }
 
-  if string(encoded) != string(body) {
-    fmt.Printf("Encoded %v and body %v is not equal\n", string(encoded), string(body))
-    return nil, errors.New("Encode error")
-  }
-
   return s, nil
 }
 
