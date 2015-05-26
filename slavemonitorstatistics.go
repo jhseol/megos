@@ -17,7 +17,7 @@ const concurrentFetch = 100
 var (
   addr           = flag.String("web.listen-address", ":9105", "Address to listen on for web interface and telemetry")
   slaveURL       = flag.String("exporter.slave-url", "http://127.0.0.1:5051", "URL to the local Mesos slave")
-  scrapeInterval = flag.Duration("exporter.interval", (60 * time.Second), "Scrape interval duration")
+  scrapeInterval = flag.Duration("exporter.interval", (10 * time.Second), "Scrape interval duration")
 )
 
 var (
@@ -105,7 +105,8 @@ func (e *periodicStatsExporter) Collect(ch chan<- prometheus.Metric) {
   e.errors.MetricVec.Collect(ch)
 }
 
-func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric) {
+func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, wg *sync.WaitGroup) {
+  defer wg.Done()
   stats, err := e.slave.MesosSlaveMonitorStatistics()
   if err != nil {
     log.Printf("%v\n", err)
@@ -167,8 +168,11 @@ func (e *periodicStatsExporter) scrapeSlaves() {
   metricsChan := make(chan prometheus.Metric)
   go e.setMetrics(metricsChan)
 
-  go e.fetch(metricsChan)
+  var wg sync.WaitGroup
+  wg.Add(1)
+  go e.fetch(metricsChan, &wg)
 
+  wg.Wait()
   close(metricsChan)
 }
 
