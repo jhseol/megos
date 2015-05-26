@@ -5,9 +5,14 @@ import (
   "net/http"
   "net/url"
   "strings"
+  "time"
 )
 
 type Query map[string]string
+
+var httpClient = http.Client{
+  Timeout: 5 * time.Second,
+}
 
 func httpHeadRequest(URL string, query Query) (int, error) {
   if strings.HasPrefix(URL, "http://") == false {
@@ -24,8 +29,7 @@ func httpHeadRequest(URL string, query Query) (int, error) {
   u.RawQuery = q.Encode()
   URL = u.String()
 
-  client := &http.Client{}
-  resp, err := client.Head(URL)
+  resp, err := httpClient.Head(URL)
   if err != nil {
     return 500, err
   }
@@ -49,8 +53,7 @@ func httpGetRequest(URL string, query Query) ([]byte, error) {
   u.RawQuery = q.Encode()
   URL = u.String()
 
-  client := &http.Client{}
-  resp, err := client.Get(URL)
+  resp, err := httpClient.Get(URL)
   if err != nil {
     return nil, err
   }
