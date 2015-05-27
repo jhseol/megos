@@ -168,7 +168,7 @@ func (e *periodicStatsExporter) setMetrics(ch chan prometheus.Metric) {
   e.Unlock()
 
   if err := prometheus.PushCollectors("monitor_statistics_json", hostname, e.opts.pushGatewayURL, e); err != nil {
-    fmt.Println("Could not push completion time to Pushgateway:", err)
+    log.Printf("Could not push completion time to Pushgateway: %v\n", err)
   }
 }
 
