@@ -1,3 +1,5 @@
+// +build ignore
+
 package main
 
 import (
@@ -15,6 +17,7 @@ import (
 const concurrentFetch = 100
 
 var (
+  pushAddr       = flag.String("exporter.push-gateway", "localhost:9091", "Address to push metrics to the push-gateway")
   addr           = flag.String("web.listen-address", ":9105", "Address to listen on for web interface and telemetry")
   slaveURL       = flag.String("exporter.slave-url", "http://127.0.0.1:5051", "URL to the local Mesos slave")
   scrapeInterval = flag.Duration("exporter.interval", (10 * time.Second), "Scrape interval duration")
@@ -55,8 +58,9 @@ var (
 )
 
 type slaveExporterOpts struct {
-  interval time.Duration
-  slaveURL string
+  interval       time.Duration
+  slaveURL       string
+  pushGatewayURL string
 }
 
 type periodicStatsExporter struct {
@@ -162,6 +166,10 @@ func (e *periodicStatsExporter) setMetrics(ch chan prometheus.Metric) {
   e.Lock()
   e.metrics = metrics
   e.Unlock()
+
+  if err := prometheus.PushCollectors("monitor_statistics_json", hostname, e.opts.pushGatewayURL, e); err != nil {
+    log.Printf("Could not push completion time to Pushgateway: %v\n", err)
+  }
 }
 
 func (e *periodicStatsExporter) scrapeSlaves() {
@@ -186,8 +194,9 @@ func main() {
   flag.Parse()
 
   opts := &slaveExporterOpts{
-    interval: *scrapeInterval,
-    slaveURL: *slaveURL,
+    interval:       *scrapeInterval,
+    slaveURL:       *slaveURL,
+    pushGatewayURL: *pushAddr,
   }
   sopts := &megos.MesosSlaveOptions{Host: opts.slaveURL}
   slave := megos.NewSlaveClient(sopts)
