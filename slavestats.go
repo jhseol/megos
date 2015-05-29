@@ -35,242 +35,242 @@ type promDescs struct {
 var (
   variableLabels = []string{"slave"}
 
-  failedTasks = prometheus.NewDesc(
+  failedTasksDesc = prometheus.NewDesc(
     "failed_tasks",
     "Tasks failed to finish successfully.",
     variableLabels, nil,
   )
-  finishedTasks = prometheus.NewDesc(
+  finishedTasksDesc = prometheus.NewDesc(
     "finished_tasks",
     "Tasks finished successfully.",
     variableLabels, nil,
   )
-  invalidStatusUpdates = prometheus.NewDesc(
+  invalidStatusUpdatesDesc = prometheus.NewDesc(
     "invalid_status_updates",
     "Failed to update task status.",
     variableLabels, nil,
   )
-  killedTasks = prometheus.NewDesc(
+  killedTasksDesc = prometheus.NewDesc(
     "killed_tasks",
     "Tasks were killed by the executor.",
     variableLabels, nil,
   )
-  launchedTasksGauge = prometheus.NewDesc(
+  launchedTasksGaugeDesc = prometheus.NewDesc(
     "launched_tasks_gauge",
     "Sent to executor (TASK_STAGING, TASK_STARTING, TASK_RUNNING).",
     variableLabels, nil,
   )
-  lostTasks = prometheus.NewDesc(
+  lostTasksDesc = prometheus.NewDesc(
     "lost_tasks",
     "Tasks failed but can be rescheduled.",
     variableLabels, nil,
   )
-  queuedTasksGauge = prometheus.NewDesc(
+  queuedTasksGaugeDesc = prometheus.NewDesc(
     "queued_tasks_gauge",
     "Queued waiting for executor to register.",
     variableLabels, nil,
   )
-  recoveryErrors = prometheus.NewDesc(
+  recoveryErrorsDesc = prometheus.NewDesc(
     "recovery_errors",
     "Indicates the number of errors ignored in '--no-strict' recovery mode",
     variableLabels, nil,
   )
-  registered = prometheus.NewDesc(
+  registeredDesc = prometheus.NewDesc(
     "registered",
     "Indicated the slave registered to master.",
     variableLabels, nil,
   )
-  slaveCpusPercent = prometheus.NewDesc(
+  slaveCpusPercentDesc = prometheus.NewDesc(
     "slave_cpus_percent",
     "Relative CPU usage(slave) since the last query.",
     variableLabels, nil,
   )
-  slaveCpusTotal = prometheus.NewDesc(
+  slaveCpusTotalDesc = prometheus.NewDesc(
     "slave_cpus_total",
     "Absolute CPUs total count.",
     variableLabels, nil,
   )
-  slaveCpusUsed = prometheus.NewDesc(
+  slaveCpusUsedDesc = prometheus.NewDesc(
     "slave_cpus_used",
     "Slave/CPUs usage count.",
     variableLabels, nil,
   )
-  slaveDiskPercent = prometheus.NewDesc(
+  slaveDiskPercentDesc = prometheus.NewDesc(
     "slave_disk_percent",
     "Slave/disk usage percentile.",
     variableLabels, nil,
   )
-  slaveDiskTotal = prometheus.NewDesc(
-    "slave_disk_total",
-    "Slave/disk total size.",
+  slaveDiskTotalDesc = prometheus.NewDesc(
+    "slave_disk_total_megabytes",
+    "Slave/disk total size in MB.",
     variableLabels, nil,
   )
-  slaveDiskUsed = prometheus.NewDesc(
-    "slave_disk_used",
-    "Slave/disk used.",
+  slaveDiskUsedDesc = prometheus.NewDesc(
+    "slave_disk_used_megabytes",
+    "Slave/disk used in MB.",
     variableLabels, nil,
   )
-  slaveExecutorsRegistering = prometheus.NewDesc(
+  slaveExecutorsRegisteringDesc = prometheus.NewDesc(
     "slave_executors_registering",
     "Slave/executors registering.",
     variableLabels, nil,
   )
-  slaveExecutorsRunning = prometheus.NewDesc(
+  slaveExecutorsRunningDesc = prometheus.NewDesc(
     "slave_executors_running",
     "Slave/executors running.",
     variableLabels, nil,
   )
-  slaveExecutorsTerminated = prometheus.NewDesc(
+  slaveExecutorsTerminatedDesc = prometheus.NewDesc(
     "slave_executors_terminated",
     "Slave/executors terminated.",
     variableLabels, nil,
   )
-  slaveExecutorsTerminating = prometheus.NewDesc(
+  slaveExecutorsTerminatingDesc = prometheus.NewDesc(
     "slave_executors_terminating",
     "Slave/executors terminating.",
     variableLabels, nil,
   )
-  slaveFrameworksActive = prometheus.NewDesc(
+  slaveFrameworksActiveDesc = prometheus.NewDesc(
     "slave_frameworks_active",
     "Slave/frameworks active.",
     variableLabels, nil,
   )
-  slaveInvalidFrameworkMessages = prometheus.NewDesc(
+  slaveInvalidFrameworkMessagesDesc = prometheus.NewDesc(
     "slave_invalid_framework_messages",
     "Slave/invalid framework messages.",
     variableLabels, nil,
   )
-  slaveInvalidStatusUpdates = prometheus.NewDesc(
+  slaveInvalidStatusUpdatesDesc = prometheus.NewDesc(
     "slave_invalid_status_updates",
     "Slave/invalid status updates.",
     variableLabels, nil,
   )
-  slaveMemPercent = prometheus.NewDesc(
+  slaveMemPercentDesc = prometheus.NewDesc(
     "slave_mem_percent",
     "Slave/memory percentile.",
     variableLabels, nil,
   )
-  slaveMemTotal = prometheus.NewDesc(
-    "slave_mem_total",
-    "Slave/memory total.",
+  slaveMemTotalDesc = prometheus.NewDesc(
+    "slave_mem_total_megabytes",
+    "Slave/memory total in MB.",
     variableLabels, nil,
   )
-  slaveMemUsed = prometheus.NewDesc(
-    "slave_mem_used",
-    "Slave/memory used.",
+  slaveMemUsedDesc = prometheus.NewDesc(
+    "slave_mem_used_megabytes",
+    "Slave/memory used in MB.",
     variableLabels, nil,
   )
-  slaveRecoveryErrors = prometheus.NewDesc(
+  slaveRecoveryErrorsDesc = prometheus.NewDesc(
     "slave_recovery_errors",
     "Slave/recovery errors.",
     variableLabels, nil,
   )
-  slaveRegistered = prometheus.NewDesc(
+  slaveRegisteredDesc = prometheus.NewDesc(
     "slave_registered",
     "Slave/registered.",
     variableLabels, nil,
   )
-  slaveTasksFailed = prometheus.NewDesc(
+  slaveTasksFailedDesc = prometheus.NewDesc(
     "slave_tasks_failed",
     "Slave/tasks failed.",
     variableLabels, nil,
   )
-  slaveTasksFinished = prometheus.NewDesc(
+  slaveTasksFinishedDesc = prometheus.NewDesc(
     "slave_tasks_finished",
     "Slave/tasks finished.",
     variableLabels, nil,
   )
-  slaveTasksKilled = prometheus.NewDesc(
+  slaveTasksKilledDesc = prometheus.NewDesc(
     "slave_tasks_killed",
     "Slave/tasks killed.",
     variableLabels, nil,
   )
-  slaveTasksLost = prometheus.NewDesc(
+  slaveTasksLostDesc = prometheus.NewDesc(
     "slave_tasks_lost",
     "Slave/tasks lost.",
     variableLabels, nil,
   )
-  slaveTasksRunning = prometheus.NewDesc(
+  slaveTasksRunningDesc = prometheus.NewDesc(
     "slave_tasks_running",
     "Slave/tasks running.",
     variableLabels, nil,
   )
-  slaveTasksStaging = prometheus.NewDesc(
+  slaveTasksStagingDesc = prometheus.NewDesc(
     "slave_tasks_staging",
     "Slave/tasks staging.",
     variableLabels, nil,
   )
-  slaveTasksStarting = prometheus.NewDesc(
+  slaveTasksStartingDesc = prometheus.NewDesc(
     "slave_tasks_starting",
     "Slave/tasks starting.",
     variableLabels, nil,
   )
-  slaveUptimeSecs = prometheus.NewDesc(
+  slaveUptimeSecsDesc = prometheus.NewDesc(
     "slave_uptime_secs",
     "Slave/uptime in seconds.",
     variableLabels, nil,
   )
-  slaveValidFrameworkMessages = prometheus.NewDesc(
+  slaveValidFrameworkMessagesDesc = prometheus.NewDesc(
     "slave_valid_framework_messages",
     "Slave/valid framework messages.",
     variableLabels, nil,
   )
-  slaveValidStatusUpdates = prometheus.NewDesc(
+  slaveValidStatusUpdatesDesc = prometheus.NewDesc(
     "slave_valid_status_updates",
     "Slave/vaild status updates.",
     variableLabels, nil,
   )
-  stagedTasks = prometheus.NewDesc(
+  stagedTasksDesc = prometheus.NewDesc(
     "staged_tasks",
     "Staged tasks.",
     variableLabels, nil,
   )
-  startedTasks = prometheus.NewDesc(
+  startedTasksDesc = prometheus.NewDesc(
     "started_tasks",
     "Started tasks.",
     variableLabels, nil,
   )
-  systemCpusTotal = prometheus.NewDesc(
+  systemCpusTotalDesc = prometheus.NewDesc(
     "system_cpus_total",
     "System/CPUs total.",
     variableLabels, nil,
   )
-  systemLoad15min = prometheus.NewDesc(
+  systemLoad15minDesc = prometheus.NewDesc(
     "system_load_15min",
     "System/loadavg in 15 mins.",
     variableLabels, nil,
   )
-  systemLoad1min = prometheus.NewDesc(
+  systemLoad1minDesc = prometheus.NewDesc(
     "system_load_1min",
     "System/loadavg in 1 min.",
     variableLabels, nil,
   )
-  systemLoad5min = prometheus.NewDesc(
+  systemLoad5minDesc = prometheus.NewDesc(
     "system_load_5min",
     "System/loadavg in 5 mins.",
     variableLabels, nil,
   )
-  systemMemFreeBytes = prometheus.NewDesc(
+  systemMemFreeBytesDesc = prometheus.NewDesc(
     "system_mem_free_bytes",
     "System/memory free in bytes.",
     variableLabels, nil,
   )
-  systemMemTotalBytes = prometheus.NewDesc(
+  systemMemTotalBytesDesc = prometheus.NewDesc(
     "system_mem_total_bytes",
     "System/memory total in bytes.",
     variableLabels, nil,
   )
-  totalFrameworks = prometheus.NewDesc(
+  totalFrameworksDesc = prometheus.NewDesc(
     "total_frameworks",
     "Total frameworks.",
     variableLabels, nil,
   )
-  uptime = prometheus.NewDesc(
-    "uptime",
+  uptimeDesc = prometheus.NewDesc(
+    "uptime_nanosecs",
     "Uptime in nanoseconds.",
     variableLabels, nil,
   )
-  validStatusUpdates = prometheus.NewDesc(
+  validStatusUpdatesDesc = prometheus.NewDesc(
     "valid_status_updates",
     "Vaild status updates.",
     variableLabels, nil,
@@ -338,289 +338,289 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, wg *
   }
 
   metricsChan <- prometheus.MustNewConstMetric(
-    failedTasks,
+    failedTasksDesc,
     prometheus.CounterValue,
     float64(stats.FailedTasks),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    finishedTasks,
+    finishedTasksDesc,
     prometheus.CounterValue,
     float64(stats.FinishedTasks),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    invalidStatusUpdates,
+    invalidStatusUpdatesDesc,
     prometheus.CounterValue,
     float64(stats.InvalidStatusUpdates),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    killedTasks,
+    killedTasksDesc,
     prometheus.CounterValue,
     float64(stats.KilledTasks),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    launchedTasksGauge,
+    launchedTasksGaugeDesc,
     prometheus.GaugeValue,
     float64(stats.LaunchedTasksGauge),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    lostTasks,
+    lostTasksDesc,
     prometheus.CounterValue,
     float64(stats.LostTasks),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    queuedTasksGauge,
+    queuedTasksGaugeDesc,
     prometheus.GaugeValue,
     float64(stats.QueuedTasksGauge),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    recoveryErrors,
+    recoveryErrorsDesc,
     prometheus.CounterValue,
     float64(stats.RecoveryErrors),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    registered,
+    registeredDesc,
     prometheus.GaugeValue,
     float64(stats.Registered),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveCpusPercent,
+    slaveCpusPercentDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveCpusPercent),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveCpusTotal,
+    slaveCpusTotalDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveCpusTotal),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveCpusUsed,
+    slaveCpusUsedDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveCpusUsed),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveDiskPercent,
+    slaveDiskPercentDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveDiskPercent),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveDiskTotal,
+    slaveDiskTotalDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveDiskTotal),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveDiskUsed,
+    slaveDiskUsedDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveDiskUsed),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveExecutorsRegistering,
+    slaveExecutorsRegisteringDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveExecutorsRegistering),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveExecutorsRunning,
+    slaveExecutorsRunningDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveExecutorsRunning),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveExecutorsTerminated,
+    slaveExecutorsTerminatedDesc,
     prometheus.CounterValue,
     float64(stats.SlaveExecutorsTerminated),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveExecutorsTerminating,
+    slaveExecutorsTerminatingDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveExecutorsTerminating),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveFrameworksActive,
+    slaveFrameworksActiveDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveFrameworksActive),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveInvalidFrameworkMessages,
+    slaveInvalidFrameworkMessagesDesc,
     prometheus.CounterValue,
     float64(stats.SlaveInvalidFrameworkMessages),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveInvalidStatusUpdates,
+    slaveInvalidStatusUpdatesDesc,
     prometheus.CounterValue,
     float64(stats.SlaveInvalidStatusUpdates),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveMemPercent,
+    slaveMemPercentDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveMemPercent),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveMemTotal,
+    slaveMemTotalDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveMemTotal),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveMemUsed,
+    slaveMemUsedDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveMemUsed),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveRecoveryErrors,
+    slaveRecoveryErrorsDesc,
     prometheus.CounterValue,
     float64(stats.SlaveRecoveryErrors),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveRegistered,
+    slaveRegisteredDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveRegistered),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveTasksFailed,
+    slaveTasksFailedDesc,
     prometheus.CounterValue,
     float64(stats.SlaveTasksFailed),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveTasksFinished,
+    slaveTasksFinishedDesc,
     prometheus.CounterValue,
     float64(stats.SlaveTasksFinished),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveTasksKilled,
+    slaveTasksKilledDesc,
     prometheus.CounterValue,
     float64(stats.SlaveTasksKilled),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveTasksLost,
+    slaveTasksLostDesc,
     prometheus.CounterValue,
     float64(stats.SlaveTasksLost),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveTasksRunning,
+    slaveTasksRunningDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveTasksRunning),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveTasksStaging,
+    slaveTasksStagingDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveTasksStaging),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveTasksStarting,
+    slaveTasksStartingDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveTasksStarting),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveUptimeSecs,
+    slaveUptimeSecsDesc,
     prometheus.CounterValue,
     float64(stats.SlaveUptimeSecs),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveValidFrameworkMessages,
+    slaveValidFrameworkMessagesDesc,
     prometheus.GaugeValue,
     float64(stats.SlaveValidFrameworkMessages),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    slaveValidStatusUpdates,
+    slaveValidStatusUpdatesDesc,
     prometheus.CounterValue,
     float64(stats.SlaveValidStatusUpdates),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    stagedTasks,
+    stagedTasksDesc,
     prometheus.GaugeValue,
     float64(stats.StagedTasks),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    startedTasks,
+    startedTasksDesc,
     prometheus.GaugeValue,
     float64(stats.StartedTasks),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    systemCpusTotal,
+    systemCpusTotalDesc,
     prometheus.GaugeValue,
     float64(stats.SystemCpusTotal),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    systemLoad15min,
+    systemLoad15minDesc,
     prometheus.GaugeValue,
     float64(stats.SystemLoad15min),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    systemLoad1min,
+    systemLoad1minDesc,
     prometheus.GaugeValue,
     float64(stats.SystemLoad1min),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    systemLoad5min,
+    systemLoad5minDesc,
     prometheus.GaugeValue,
     float64(stats.SystemLoad5min),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    systemMemFreeBytes,
+    systemMemFreeBytesDesc,
     prometheus.GaugeValue,
     float64(stats.SystemMemFreeBytes),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    systemMemTotalBytes,
+    systemMemTotalBytesDesc,
     prometheus.GaugeValue,
     float64(stats.SystemMemTotalBytes),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    totalFrameworks,
+    totalFrameworksDesc,
     prometheus.GaugeValue,
     float64(stats.TotalFrameworks),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    uptime,
+    uptimeDesc,
     prometheus.CounterValue,
     float64(stats.Uptime),
     hostname,
   )
   metricsChan <- prometheus.MustNewConstMetric(
-    validStatusUpdates,
+    validStatusUpdatesDesc,
     prometheus.CounterValue,
     float64(stats.ValidStatusUpdates),
     hostname,
