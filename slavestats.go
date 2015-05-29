@@ -81,142 +81,142 @@ var (
     variableLabels, nil,
   )
   slaveCpusPercent = prometheus.NewDesc(
-    "slave/cpus_percent",
+    "slave_cpus_percent",
     "Relative CPU usage(slave) since the last query.",
     variableLabels, nil,
   )
   slaveCpusTotal = prometheus.NewDesc(
-    "slave/cpus_total",
+    "slave_cpus_total",
     "Absolute CPUs total count.",
     variableLabels, nil,
   )
   slaveCpusUsed = prometheus.NewDesc(
-    "slave/cpus_used",
+    "slave_cpus_used",
     "Slave/CPUs usage count.",
     variableLabels, nil,
   )
   slaveDiskPercent = prometheus.NewDesc(
-    "slave/disk_percent",
+    "slave_disk_percent",
     "Slave/disk usage percentile.",
     variableLabels, nil,
   )
   slaveDiskTotal = prometheus.NewDesc(
-    "slave/disk_total",
+    "slave_disk_total",
     "Slave/disk total size.",
     variableLabels, nil,
   )
   slaveDiskUsed = prometheus.NewDesc(
-    "slave/disk_used",
+    "slave_disk_used",
     "Slave/disk used.",
     variableLabels, nil,
   )
   slaveExecutorsRegistering = prometheus.NewDesc(
-    "slave/executors_registering",
+    "slave_executors_registering",
     "Slave/executors registering.",
     variableLabels, nil,
   )
   slaveExecutorsRunning = prometheus.NewDesc(
-    "slave/executors_running",
+    "slave_executors_running",
     "Slave/executors running.",
     variableLabels, nil,
   )
   slaveExecutorsTerminated = prometheus.NewDesc(
-    "slave/executors_terminated",
+    "slave_executors_terminated",
     "Slave/executors terminated.",
     variableLabels, nil,
   )
   slaveExecutorsTerminating = prometheus.NewDesc(
-    "slave/executors_terminating",
+    "slave_executors_terminating",
     "Slave/executors terminating.",
     variableLabels, nil,
   )
   slaveFrameworksActive = prometheus.NewDesc(
-    "slave/frameworks_active",
+    "slave_frameworks_active",
     "Slave/frameworks active.",
     variableLabels, nil,
   )
   slaveInvalidFrameworkMessages = prometheus.NewDesc(
-    "slave/invalid_framework_messages",
+    "slave_invalid_framework_messages",
     "Slave/invalid framework messages.",
     variableLabels, nil,
   )
   slaveInvalidStatusUpdates = prometheus.NewDesc(
-    "slave/invalid_status_updates",
+    "slave_invalid_status_updates",
     "Slave/invalid status updates.",
     variableLabels, nil,
   )
   slaveMemPercent = prometheus.NewDesc(
-    "slave/mem_percent",
+    "slave_mem_percent",
     "Slave/memory percentile.",
     variableLabels, nil,
   )
   slaveMemTotal = prometheus.NewDesc(
-    "slave/mem_total",
+    "slave_mem_total",
     "Slave/memory total.",
     variableLabels, nil,
   )
   slaveMemUsed = prometheus.NewDesc(
-    "slave/mem_used",
+    "slave_mem_used",
     "Slave/memory used.",
     variableLabels, nil,
   )
   slaveRecoveryErrors = prometheus.NewDesc(
-    "slave/recovery_errors",
+    "slave_recovery_errors",
     "Slave/recovery errors.",
     variableLabels, nil,
   )
   slaveRegistered = prometheus.NewDesc(
-    "slave/registered",
+    "slave_registered",
     "Slave/registered.",
     variableLabels, nil,
   )
   slaveTasksFailed = prometheus.NewDesc(
-    "slave/tasks_failed",
+    "slave_tasks_failed",
     "Slave/tasks failed.",
     variableLabels, nil,
   )
   slaveTasksFinished = prometheus.NewDesc(
-    "slave/tasks_finished",
+    "slave_tasks_finished",
     "Slave/tasks finished.",
     variableLabels, nil,
   )
   slaveTasksKilled = prometheus.NewDesc(
-    "slave/tasks_killed",
+    "slave_tasks_killed",
     "Slave/tasks killed.",
     variableLabels, nil,
   )
   slaveTasksLost = prometheus.NewDesc(
-    "slave/tasks_lost",
+    "slave_tasks_lost",
     "Slave/tasks lost.",
     variableLabels, nil,
   )
   slaveTasksRunning = prometheus.NewDesc(
-    "slave/tasks_running",
+    "slave_tasks_running",
     "Slave/tasks running.",
     variableLabels, nil,
   )
   slaveTasksStaging = prometheus.NewDesc(
-    "slave/tasks_staging",
+    "slave_tasks_staging",
     "Slave/tasks staging.",
     variableLabels, nil,
   )
   slaveTasksStarting = prometheus.NewDesc(
-    "slave/tasks_starting",
+    "slave_tasks_starting",
     "Slave/tasks starting.",
     variableLabels, nil,
   )
   slaveUptimeSecs = prometheus.NewDesc(
-    "slave/uptime_secs",
+    "slave_uptime_secs",
     "Slave/uptime in seconds.",
     variableLabels, nil,
   )
   slaveValidFrameworkMessages = prometheus.NewDesc(
-    "slave/valid_framework_messages",
+    "slave_valid_framework_messages",
     "Slave/valid framework messages.",
     variableLabels, nil,
   )
   slaveValidStatusUpdates = prometheus.NewDesc(
-    "slave/valid_status_updates",
+    "slave_valid_status_updates",
     "Slave/vaild status updates.",
     variableLabels, nil,
   )
@@ -333,6 +333,7 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, wg *
   defer wg.Done()
   stats, err := e.slave.MesosSlaveStats()
   if err != nil {
+    log.Printf("%v\n", err)
     return
   }
 
