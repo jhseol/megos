@@ -231,32 +231,32 @@ var (
     variableLabels, nil,
   )
   systemCpusTotal = prometheus.NewDesc(
-    "system/cpus_total",
+    "system_cpus_total",
     "System/CPUs total.",
     variableLabels, nil,
   )
   systemLoad15min = prometheus.NewDesc(
-    "system/load_15min",
+    "system_load_15min",
     "System/loadavg in 15 mins.",
     variableLabels, nil,
   )
   systemLoad1min = prometheus.NewDesc(
-    "system/load_1min",
+    "system_load_1min",
     "System/loadavg in 1 min.",
     variableLabels, nil,
   )
   systemLoad5min = prometheus.NewDesc(
-    "system/load_5min",
+    "system_load_5min",
     "System/loadavg in 5 mins.",
     variableLabels, nil,
   )
   systemMemFreeBytes = prometheus.NewDesc(
-    "system/mem_free_bytes",
+    "system_mem_free_bytes",
     "System/memory free in bytes.",
     variableLabels, nil,
   )
   systemMemTotalBytes = prometheus.NewDesc(
-    "system/mem_total_bytes",
+    "system_mem_total_bytes",
     "System/memory total in bytes.",
     variableLabels, nil,
   )
