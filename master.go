@@ -345,14 +345,14 @@ type MesosMasterMetricsSnapshot struct {
 
 type MesosMasterRegistrar struct {
   Master *MesosRegistrarMaster `json:"master,omitempty"`
-  Slaves *MesosRegistrarSlaves `json:"slaves,omitempty"`
+  Slaves *MesosRegistrarSlave  `json:"slaves,omitempty"`
 }
 
 type MesosRegistrarMaster struct {
   Info *MesosMasterInfo `json:"info,omitempty"`
 }
 
-type MesosRegistrarSlaves struct {
+type MesosRegistrarSlave struct {
   Slaves []*MesosSlave `json:"slaves,omitempty"`
 }
 
@@ -434,6 +434,50 @@ func NewMasterClient(opts *MesosMasterOptions) *MesosMasterClient {
   }
 
   return s
+}
+
+func MesosAttributes(r interface{}) map[string]interface{} {
+  var attrs map[string]interface{}
+
+  switch t := r.(type) {
+  case []interface{}:
+    for _, rs := range t {
+      switch tt := rs.(type) {
+      case map[string]interface{}:
+        switch tt["type"] {
+        case "TEXT":
+          switch s := tt["text"].(type) {
+          case map[string]interface{}:
+            attrs[tt["name"].(string)] = s["value"]
+          }
+        }
+      }
+    }
+  }
+
+  return attrs
+}
+
+func MesosResources(r interface{}) map[string]interface{} {
+  var res map[string]interface{}
+
+  switch t := r.(type) {
+  case []interface{}:
+    for _, rs := range t {
+      switch tt := rs.(type) {
+      case map[string]interface{}:
+        switch tt["type"] {
+        case "SCALAR":
+          switch s := tt["scalar"].(type) {
+          case map[string]interface{}:
+            res[tt["name"].(string)] = s["value"]
+          }
+        }
+      }
+    }
+  }
+
+  return res
 }
 
 func (mm *MesosMasterClient) MesosMasterRegistrar() (*MesosMasterRegistrar, error) {
