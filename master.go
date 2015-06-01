@@ -437,16 +437,21 @@ func NewMasterClient(opts *MesosMasterOptions) *MesosMasterClient {
 }
 
 func MesosAttributes(r interface{}) map[string]interface{} {
-  var attrs map[string]interface{}
+	attrs := make(map[string]interface{})
 
   switch t := r.(type) {
   case []interface{}:
-    for _, rs := range t {
-      switch tt := rs.(type) {
+    for _, at := range t {
+      switch tt := at.(type) {
       case map[string]interface{}:
         switch tt["type"] {
         case "TEXT":
           switch s := tt["text"].(type) {
+          case map[string]interface{}:
+            attrs[tt["name"].(string)] = s["value"]
+          }
+				case "SCALAR":
+          switch s := tt["scalar"].(type) {
           case map[string]interface{}:
             attrs[tt["name"].(string)] = s["value"]
           }
@@ -459,7 +464,7 @@ func MesosAttributes(r interface{}) map[string]interface{} {
 }
 
 func MesosResources(r interface{}) map[string]interface{} {
-  var res map[string]interface{}
+	res := make(map[string]interface{})
 
   switch t := r.(type) {
   case []interface{}:

@@ -9,6 +9,7 @@ import (
   "os"
   "sync"
   "time"
+	"encoding/json"
 
   "github.com/jhseol/megos"
   "github.com/prometheus/client_golang/prometheus"
@@ -101,17 +102,12 @@ func (e *periodicStatsExporter) Collect(ch chan<- prometheus.Metric) {
 
 func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, wg *sync.WaitGroup) {
   defer wg.Done()
-<<<<<<< HEAD
   reg, err := e.master.MesosMasterRegistrar()
-=======
-  stats, err := e.master.MesosMasterMonitorStatistics()
->>>>>>> f03a73c5ebf914a01d73a4c482e2103b8debddfc
   if err != nil {
     log.Printf("%v\n", err)
     return
   }
 
-<<<<<<< HEAD
   slaves := reg.Slaves.Slaves
 
   for _, slave := range slaves {
@@ -119,25 +115,31 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, wg *
     resources := megos.MesosResources(info.Resources)
     attributes := megos.MesosAttributes(info.Attributes)
 
+		attrs, err := json.Marshal(attributes)
+		if err != nil {
+			log.Printf("%v\n", err)
+			continue
+		}
+
     metricsChan <- prometheus.MustNewConstMetric(
       resourcesCPUsDesc,
       prometheus.GaugeValue,
-      float64(resources["cpus"]),
-      attributes["rackid"], info.ID.Value, info.Hostname,
+      resources["cpus"].(float64),
+      string(attrs), info.ID.Value, info.Hostname,
     )
 
     metricsChan <- prometheus.MustNewConstMetric(
       resourcesMemDesc,
       prometheus.GaugeValue,
-      float64(resources["mem"]),
-      attributes["rackid"], info.ID.Value, info.Hostname,
+      resources["mem"].(float64),
+      string(attrs), info.ID.Value, info.Hostname,
     )
 
     metricsChan <- prometheus.MustNewConstMetric(
       resourcesDiskDesc,
       prometheus.GaugeValue,
-      float64(resources["disk"]),
-      attributes["rackid"], info.ID.Value, info.Hostname,
+      resources["disk"].(float64),
+      string(attrs), info.ID.Value, info.Hostname,
     )
   }
 }
