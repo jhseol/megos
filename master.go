@@ -14,7 +14,7 @@ type MesosMasterStats struct {
   ActiveSchedulers                                       int64   `json:"active_schedulers,omitempty"`
   ActiveTasksGauge                                       int64   `json:"active_tasks_gauge,omitempty"`
   CpusPercent                                            float64 `json:"cpus_percent,omitempty"`
-  CpusTotal                                              int64   `json:"cpus_total,omitempty"`
+  CpusTotal                                              float64 `json:"cpus_total,omitempty"`
   CpusUsed                                               float64 `json:"cpus_used,omitempty"`
   DeactivatedSlaves                                      int64   `json:"deactivated_slaves,omitempty"`
   DiskPercent                                            float64 `json:"disk_percent,omitempty"`
@@ -95,7 +95,7 @@ type MesosMasterStats struct {
   MasterValidStatusUpdateAcknowledgements                int64   `json:"master/valid_status_update_acknowledgements,omitempty"`
   MasterValidStatusUpdates                               int64   `json:"master/valid_status_updates,omitempty"`
   MemPercent                                             float64 `json:"mem_percent,omitempty"`
-  MemTotal                                               int64   `json:"mem_total,omitempty"`
+  MemTotal                                               float64 `json:"mem_total,omitempty"`
   MemUsed                                                float64 `json:"mem_used,omitempty"`
   OutstandingOffers                                      int64   `json:"outstanding_offers,omitempty"`
   RegistrarQueuedOperations                              int64   `json:"registrar/queued_operations,omitempty"`
