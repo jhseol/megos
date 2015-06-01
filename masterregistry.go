@@ -29,7 +29,7 @@ var (
 )
 
 var (
-  variableLabels = []string{"rackid", "slaveid", "slave"}
+  variableLabels = []string{"attributes", "slaveid", "slave"}
 
   resourcesCPUsDesc = prometheus.NewDesc(
     "mesos_registry_cpus",
