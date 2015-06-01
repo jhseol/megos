@@ -101,12 +101,17 @@ func (e *periodicStatsExporter) Collect(ch chan<- prometheus.Metric) {
 
 func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, wg *sync.WaitGroup) {
   defer wg.Done()
+<<<<<<< HEAD
   reg, err := e.master.MesosMasterRegistrar()
+=======
+  stats, err := e.master.MesosMasterMonitorStatistics()
+>>>>>>> f03a73c5ebf914a01d73a4c482e2103b8debddfc
   if err != nil {
     log.Printf("%v\n", err)
     return
   }
 
+<<<<<<< HEAD
   slaves := reg.Slaves.Slaves
 
   for _, slave := range slaves {
