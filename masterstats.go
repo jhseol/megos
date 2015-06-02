@@ -21,7 +21,7 @@ const concurrentFetch = 100
 var (
   pushAddr       = flag.String("exporter.push-gateway", "localhost:9091", "Address to push metrics to the push-gateway")
   addr           = flag.String("web.listen-address", ":9105", "Address to listen on for web interface and telemetry")
-  masterURL      = flag.String("exporter.master-url", "http://127.0.0.1:5051", "URL to the local Mesos master")
+  masterURL      = flag.String("exporter.master-url", "http://127.0.0.1:5050", "URL to the local Mesos master")
   scrapeInterval = flag.Duration("exporter.interval", (10 * time.Second), "Scrape interval duration")
 
   hostname, _ = os.Hostname()
