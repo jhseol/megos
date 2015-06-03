@@ -60,17 +60,17 @@ var (
   )
 
   cpusUsrUsageDesc = prometheus.NewDesc(
-    "cpus_user_usage",
+    "mesos_task_cpus_user_usage",
     "Relative user CPU usage since the last query.",
     variableLabels, nil,
   )
   cpusSysUsageDesc = prometheus.NewDesc(
-    "cpus_system_usage",
+    "mesos_task_cpus_system_usage",
     "Relative CPU system usage since the last query.",
     variableLabels, nil,
   )
   cpusTotalUsageDesc = prometheus.NewDesc(
-    "cpus_total_usage",
+    "mesos_task_cpus_total_usage",
     "Relative combined CPU usage since the last query.",
     variableLabels, nil,
   )
@@ -262,10 +262,9 @@ func (e *periodicStatsExporter) scrapeSlaves(tm taskMetrics) {
   wg.Wait()
   close(metricsChan)
 
-  cleanupMetrics(tm)
 }
 
-func cleanupMetrics(tm taskMetrics) {
+func deleteStaleTaskMetrics(tm taskMetrics) {
   now := time.Now().Unix()
   for tid, m := range tm {
     timeSinceLastUpdate := now - int64(m.timestamp)
@@ -279,6 +278,7 @@ func runEvery(f func(taskMetrics), interval time.Duration) {
   tm := make(taskMetrics)
   for _ = range time.NewTicker(interval).C {
     f(tm)
+    deleteStaleTaskMetrics(tm)
   }
 }
 
