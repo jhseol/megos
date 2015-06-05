@@ -14,10 +14,13 @@ import (
   "github.com/prometheus/client_golang/prometheus"
 )
 
-const concurrentFetch = 100
+const (
+  concurrentFetch = 100
+  taskStaledTime  = 300
+)
 
 var (
-  pushAddr       = flag.String("exporter.push-gateway", "localhost:9091", "Address to push metrics to the push-gateway")
+  pushAddr       = flag.String("exporter.push-gateway", "", "Address to push metrics to the push-gateway")
   addr           = flag.String("web.listen-address", ":9105", "Address to listen on for web interface and telemetry")
   slaveURL       = flag.String("exporter.slave-url", "http://127.0.0.1:5051", "URL to the local Mesos slave")
   scrapeInterval = flag.Duration("exporter.interval", (10 * time.Second), "Scrape interval duration")
@@ -55,7 +58,31 @@ var (
     "Task memory RSS usage in bytes",
     variableLabels, nil,
   )
+
+  cpusUsrUsageDesc = prometheus.NewDesc(
+    "mesos_task_cpus_user_usage",
+    "Relative user CPU usage since the last query.",
+    variableLabels, nil,
+  )
+  cpusSysUsageDesc = prometheus.NewDesc(
+    "mesos_task_cpus_system_usage",
+    "Relative CPU system usage since the last query.",
+    variableLabels, nil,
+  )
+  cpusTotalUsageDesc = prometheus.NewDesc(
+    "mesos_task_cpus_total_usage",
+    "Relative combined CPU usage since the last query.",
+    variableLabels, nil,
+  )
 )
+
+type taskMetric struct {
+  cpusUserTimeSecs   float64
+  cpusSystemTimeSecs float64
+  timestamp          float64
+}
+
+type taskMetrics map[string]taskMetric
 
 type slaveExporterOpts struct {
   interval       time.Duration
@@ -109,7 +136,19 @@ func (e *periodicStatsExporter) Collect(ch chan<- prometheus.Metric) {
   e.errors.MetricVec.Collect(ch)
 }
 
-func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, wg *sync.WaitGroup) {
+func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, tm taskMetrics, wg *sync.WaitGroup) {
+  var taskID string
+  var cpusLimit float64
+  var cpusSystemTimeSecs float64
+  var cpusUserTimeSecs float64
+  var memLimitBytes int64
+  var memRssBytes int64
+  var timestamp float64
+
+  var cpusSystemUsage float64
+  var cpusUserUsage float64
+  var cpusTotalUsage float64
+
   defer wg.Done()
   stats, err := e.slave.MesosSlaveMonitorStatistics()
   if err != nil {
@@ -118,34 +157,74 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, wg *
   }
 
   for _, stat := range *stats {
+    taskID = stat.Source
+    cpusLimit = stat.Statistics.CpusLimit
+    cpusSystemTimeSecs = stat.Statistics.CpusSystemTimeSecs
+    cpusUserTimeSecs = stat.Statistics.CpusUserTimeSecs
+    memLimitBytes = stat.Statistics.MemLimitBytes
+    memRssBytes = stat.Statistics.MemRssBytes
+    timestamp = stat.Statistics.Timestamp
+
+    m, ok := tm[taskID]
+    if ok {
+      cpusSystemUsage = (cpusSystemTimeSecs - m.cpusSystemTimeSecs) / (timestamp - m.timestamp)
+      cpusUserUsage = (cpusUserTimeSecs - m.cpusUserTimeSecs) / (timestamp - m.timestamp)
+      cpusTotalUsage = cpusSystemUsage + cpusUserUsage
+
+      metricsChan <- prometheus.MustNewConstMetric(
+        cpusUsrUsageDesc,
+        prometheus.GaugeValue,
+        cpusUserUsage,
+        stat.Source, hostname, stat.FrameworkID,
+      )
+      metricsChan <- prometheus.MustNewConstMetric(
+        cpusSysUsageDesc,
+        prometheus.GaugeValue,
+        cpusSystemUsage,
+        stat.Source, hostname, stat.FrameworkID,
+      )
+      metricsChan <- prometheus.MustNewConstMetric(
+        cpusTotalUsageDesc,
+        prometheus.GaugeValue,
+        cpusTotalUsage,
+        stat.Source, hostname, stat.FrameworkID,
+      )
+    }
+
+    tm[taskID] = taskMetric{
+      cpusSystemTimeSecs: cpusSystemTimeSecs,
+      cpusUserTimeSecs:   cpusUserTimeSecs,
+      timestamp:          timestamp,
+    }
+
     metricsChan <- prometheus.MustNewConstMetric(
       cpusLimitDesc,
       prometheus.GaugeValue,
-      float64(stat.Statistics.CpusLimit),
+      cpusLimit,
       stat.Source, hostname, stat.FrameworkID,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       cpusSysDesc,
       prometheus.CounterValue,
-      float64(stat.Statistics.CpusSystemTimeSecs),
+      cpusSystemTimeSecs,
       stat.Source, hostname, stat.FrameworkID,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       cpusUsrDesc,
       prometheus.CounterValue,
-      float64(stat.Statistics.CpusUserTimeSecs),
+      cpusUserTimeSecs,
       stat.Source, hostname, stat.FrameworkID,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       memLimitDesc,
       prometheus.GaugeValue,
-      float64(stat.Statistics.MemLimitBytes),
+      float64(memLimitBytes),
       stat.Source, hostname, stat.FrameworkID,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       memRssDesc,
       prometheus.GaugeValue,
-      float64(stat.Statistics.MemRssBytes),
+      float64(memRssBytes),
       stat.Source, hostname, stat.FrameworkID,
     )
   }
@@ -167,26 +246,41 @@ func (e *periodicStatsExporter) setMetrics(ch chan prometheus.Metric) {
   e.metrics = metrics
   e.Unlock()
 
-  if err := prometheus.PushCollectors("monitor_statistics_json", hostname, e.opts.pushGatewayURL, e); err != nil {
-    log.Printf("Could not push completion time to Pushgateway: %v\n", err)
+  if e.opts.pushGatewayURL != "" {
+    if err := prometheus.PushCollectors("monitor_statistics_json", hostname, e.opts.pushGatewayURL, e); err != nil {
+      log.Printf("Could not push completion time to Pushgateway: %v\n", err)
+    }
   }
 }
 
-func (e *periodicStatsExporter) scrapeSlaves() {
+func (e *periodicStatsExporter) scrapeSlaves(tm taskMetrics) {
   metricsChan := make(chan prometheus.Metric)
   go e.setMetrics(metricsChan)
 
   var wg sync.WaitGroup
   wg.Add(1)
-  go e.fetch(metricsChan, &wg)
+  go e.fetch(metricsChan, tm, &wg)
 
   wg.Wait()
   close(metricsChan)
+
 }
 
-func runEvery(f func(), interval time.Duration) {
+func deleteStaleTaskMetrics(tm taskMetrics) {
+  now := time.Now().Unix()
+  for tid, m := range tm {
+    timeSinceLastUpdate := now - int64(m.timestamp)
+    if timeSinceLastUpdate > taskStaledTime {
+      delete(tm, tid)
+    }
+  }
+}
+
+func runEvery(f func(taskMetrics), interval time.Duration) {
+  tm := make(taskMetrics)
   for _ = range time.NewTicker(interval).C {
-    f()
+    f(tm)
+    deleteStaleTaskMetrics(tm)
   }
 }
 
