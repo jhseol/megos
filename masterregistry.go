@@ -18,7 +18,7 @@ import (
 const concurrentFetch = 100
 
 var (
-  pushAddr       = flag.String("exporter.push-gateway", "localhost:9091", "Address to push metrics to the push-gateway")
+  pushAddr       = flag.String("exporter.push-gateway", "", "Address to push metrics to the push-gateway")
   addr           = flag.String("web.listen-address", ":9105", "Address to listen on for web interface and telemetry")
   masterURL      = flag.String("exporter.master-url", "http://127.0.0.1:5050", "URL to the local Mesos master")
   scrapeInterval = flag.Duration("exporter.interval", (10 * time.Second), "Scrape interval duration")
@@ -160,8 +160,10 @@ func (e *periodicStatsExporter) setMetrics(ch chan prometheus.Metric) {
   e.metrics = metrics
   e.Unlock()
 
-  if err := prometheus.PushCollectors("registrar(1)_registry", hostname, e.opts.pushGatewayURL, e); err != nil {
-    log.Printf("Could not push completion time to Pushgateway: %v\n", err)
+  if e.opts.pushGatewayURL != "" {
+    if err := prometheus.PushCollectors("registrar(1)_registry", hostname, e.opts.pushGatewayURL, e); err != nil {
+      log.Printf("Could not push completion time to Pushgateway: %v\n", err)
+    }
   }
 }
 
