@@ -31,7 +31,7 @@ var (
 )
 
 var (
-  variableLabels = []string{"source", "slave", "framework_id"}
+  variableLabels = []string{"source", "slave", "framework_id", "executor_id"}
 
   cpusLimitDesc = prometheus.NewDesc(
     "mesos_task_cpus_limit",
@@ -175,19 +175,19 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, tm t
         cpusUsrUsageDesc,
         prometheus.GaugeValue,
         cpusUserUsage,
-        stat.Source, hostname, stat.FrameworkID,
+        stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
       )
       metricsChan <- prometheus.MustNewConstMetric(
         cpusSysUsageDesc,
         prometheus.GaugeValue,
         cpusSystemUsage,
-        stat.Source, hostname, stat.FrameworkID,
+        stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
       )
       metricsChan <- prometheus.MustNewConstMetric(
         cpusTotalUsageDesc,
         prometheus.GaugeValue,
         cpusTotalUsage,
-        stat.Source, hostname, stat.FrameworkID,
+        stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
       )
     }
 
@@ -201,31 +201,31 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, tm t
       cpusLimitDesc,
       prometheus.GaugeValue,
       cpusLimit,
-      stat.Source, hostname, stat.FrameworkID,
+      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       cpusSysDesc,
       prometheus.CounterValue,
       cpusSystemTimeSecs,
-      stat.Source, hostname, stat.FrameworkID,
+      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       cpusUsrDesc,
       prometheus.CounterValue,
       cpusUserTimeSecs,
-      stat.Source, hostname, stat.FrameworkID,
+      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       memLimitDesc,
       prometheus.GaugeValue,
       float64(memLimitBytes),
-      stat.Source, hostname, stat.FrameworkID,
+      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       memRssDesc,
       prometheus.GaugeValue,
       float64(memRssBytes),
-      stat.Source, hostname, stat.FrameworkID,
+      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
     )
   }
 }
