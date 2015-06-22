@@ -7,18 +7,6 @@ import (
 
 // Mesos version 0.22.0 compatible
 
-type MesosTasks struct {
-  ExecutorId  string         `json:"executor_id,omitempty"`
-  FrameworkId string         `json:"framework_id,omitempty"`
-  Id          string         `json:"id,omitempty"`
-  Name        string         `json:"name,omitempty"`
-  SlaveId     string         `json:"slave_id,omitempty"`
-  State       string         `json:"state,omitempty"`
-  Labels      []interface{}  `json:"labels,omitempty"`
-  Resources   interface{}    `json:"resources,omitempty"`
-  Statuses    []*MesosStatus `json:"statuses,omitempty"`
-}
-
 type MesosCompletedExecutors struct {
   Container      string        `json:"container,omitempty"`
   Directory      string        `json:"directory,omitempty"`
