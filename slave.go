@@ -7,52 +7,52 @@ import (
 
 // Mesos version 0.22.0 compatible
 
-type MesosCompletedTasks struct {
-  ExecutorID  string        `json:"executor_id,omitempty"`
-  FrameworkID string        `json:"framework_id,omitempty"`
-  ID          string        `json:"id,omitempty"`
-  Labels      []interface{} `json:"labels,omitempty"`
-  Name        string        `json:"name,omitempty"`
-  Resources   interface{}   `json:"resources,omitempty"`
-  SlaveID     string        `json:"slave_id,omitempty"`
-  State       string        `json:"state,omitempty"`
-  Statuses    []interface{} `json:"statuses,omitempty"`
+type MesosTasks struct {
+  ExecutorId  string         `json:"executor_id,omitempty"`
+  FrameworkId string         `json:"framework_id,omitempty"`
+  Id          string         `json:"id,omitempty"`
+  Name        string         `json:"name,omitempty"`
+  SlaveId     string         `json:"slave_id,omitempty"`
+  State       string         `json:"state,omitempty"`
+  Labels      []interface{}  `json:"labels,omitempty"`
+  Resources   interface{}    `json:"resources,omitempty"`
+  Statuses    []*MesosStatus `json:"statuses,omitempty"`
 }
 
 type MesosCompletedExecutors struct {
-  CompletedTasks []*MesosCompletedTasks `json:"completed_tasks,omitempty"`
-  Container      string                 `json:"container,omitempty"`
-  Directory      string                 `json:"directory,omitempty"`
-  ID             string                 `json:"id,omitempty"`
-  Name           string                 `json:"name,omitempty"`
-  QueuedTasks    []interface{}          `json:"queued_tasks,omitempty"`
-  Resources      interface{}            `json:"resources,omitempty"`
-  Source         string                 `json:"source,omitempty"`
-  Tasks          []interface{}          `json:"tasks,omitempty"`
+  Container      string        `json:"container,omitempty"`
+  Directory      string        `json:"directory,omitempty"`
+  ID             string        `json:"id,omitempty"`
+  Name           string        `json:"name,omitempty"`
+  Source         string        `json:"source,omitempty"`
+  Resources      interface{}   `json:"resources,omitempty"`
+  CompletedTasks []*MesosTasks `json:"completed_tasks,omitempty"`
+  QueuedTasks    []*MesosTasks `json:"queued_tasks,omitempty"`
+  Tasks          []*MesosTasks `json:"tasks,omitempty"`
 }
 
 type MesosCompletedFramework struct {
   Checkpoint         bool                       `json:"checkpoint,omitempty"`
-  CompletedExecutors []*MesosCompletedExecutors `json:"completed_executors,omitempty"`
-  Executors          []interface{}              `json:"executors,omitempty"`
   FailoverTimeout    int64                      `json:"failover_timeout,omitempty"`
   Hostname           string                     `json:"hostname,omitempty"`
   ID                 string                     `json:"id,omitempty"`
   Name               string                     `json:"name,omitempty"`
   Role               string                     `json:"role,omitempty"`
   User               string                     `json:"user,omitempty"`
+  CompletedExecutors []*MesosCompletedExecutors `json:"completed_executors,omitempty"`
+  Executors          []*MesosExecutors          `json:"executors,omitempty"`
 }
 
 type MesosExecutors struct {
-  CompletedTasks []interface{} `json:"completed_tasks,omitempty"`
   Container      string        `json:"container,omitempty"`
   Directory      string        `json:"directory,omitempty"`
   ID             string        `json:"id,omitempty"`
   Name           string        `json:"name,omitempty"`
-  QueuedTasks    []interface{} `json:"queued_tasks,omitempty"`
-  Resources      interface{}   `json:"resources,omitempty"`
   Source         string        `json:"source,omitempty"`
-  Tasks          []interface{} `json:"tasks,omitempty"`
+  Resources      interface{}   `json:"resources,omitempty"`
+  CompletedTasks []*MesosTasks `json:"completed_tasks,omitempty"`
+  QueuedTasks    []*MesosTasks `json:"queued_tasks,omitempty"`
+  Tasks          []*MesosTasks `json:"tasks,omitempty"`
 }
 
 type MesosFramework struct {
