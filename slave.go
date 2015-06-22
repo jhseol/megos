@@ -7,52 +7,52 @@ import (
 
 // Mesos version 0.22.0 compatible
 
-type MesosCompletedExecutors struct {
-  Container      string        `json:"container,omitempty"`
-  Directory      string        `json:"directory,omitempty"`
-  ID             string        `json:"id,omitempty"`
-  Name           string        `json:"name,omitempty"`
-  Source         string        `json:"source,omitempty"`
-  Resources      interface{}   `json:"resources,omitempty"`
-  CompletedTasks []*MesosTasks `json:"completed_tasks,omitempty"`
-  QueuedTasks    []*MesosTasks `json:"queued_tasks,omitempty"`
-  Tasks          []*MesosTasks `json:"tasks,omitempty"`
-}
+// type MesosCompletedExecutors struct {
+//   Container      string        `json:"container,omitempty"`
+//   Directory      string        `json:"directory,omitempty"`
+//   ID             string        `json:"id,omitempty"`
+//   Name           string        `json:"name,omitempty"`
+//   Source         string        `json:"source,omitempty"`
+//   Resources      interface{}   `json:"resources,omitempty"`
+//   CompletedTasks []*MesosTask `json:"completed_tasks,omitempty"`
+//   QueuedTasks    []*MesosTask `json:"queued_tasks,omitempty"`
+//   Tasks          []*MesosTask `json:"tasks,omitempty"`
+// }
 
-type MesosCompletedFramework struct {
-  Checkpoint         bool                       `json:"checkpoint,omitempty"`
-  FailoverTimeout    int64                      `json:"failover_timeout,omitempty"`
-  Hostname           string                     `json:"hostname,omitempty"`
-  ID                 string                     `json:"id,omitempty"`
-  Name               string                     `json:"name,omitempty"`
-  Role               string                     `json:"role,omitempty"`
-  User               string                     `json:"user,omitempty"`
-  CompletedExecutors []*MesosCompletedExecutors `json:"completed_executors,omitempty"`
-  Executors          []*MesosExecutors          `json:"executors,omitempty"`
-}
+// type MesosCompletedFramework struct {
+//   Checkpoint         bool                       `json:"checkpoint,omitempty"`
+//   FailoverTimeout    int64                      `json:"failover_timeout,omitempty"`
+//   Hostname           string                     `json:"hostname,omitempty"`
+//   ID                 string                     `json:"id,omitempty"`
+//   Name               string                     `json:"name,omitempty"`
+//   Role               string                     `json:"role,omitempty"`
+//   User               string                     `json:"user,omitempty"`
+//   CompletedExecutors []*MesosCompletedExecutors `json:"completed_executors,omitempty"`
+//   Executors          []*MesosExecutors          `json:"executors,omitempty"`
+// }
 
 type MesosExecutors struct {
-  Container      string        `json:"container,omitempty"`
-  Directory      string        `json:"directory,omitempty"`
-  ID             string        `json:"id,omitempty"`
-  Name           string        `json:"name,omitempty"`
-  Source         string        `json:"source,omitempty"`
-  Resources      interface{}   `json:"resources,omitempty"`
-  CompletedTasks []*MesosTasks `json:"completed_tasks,omitempty"`
-  QueuedTasks    []*MesosTasks `json:"queued_tasks,omitempty"`
-  Tasks          []*MesosTasks `json:"tasks,omitempty"`
+  Container      string       `json:"container,omitempty"`
+  Directory      string       `json:"directory,omitempty"`
+  ID             string       `json:"id,omitempty"`
+  Name           string       `json:"name,omitempty"`
+  Source         string       `json:"source,omitempty"`
+  Resources      interface{}  `json:"resources,omitempty"`
+  CompletedTasks []*MesosTask `json:"completed_tasks,omitempty"`
+  QueuedTasks    []*MesosTask `json:"queued_tasks,omitempty"`
+  Tasks          []*MesosTask `json:"tasks,omitempty"`
 }
 
 type MesosFramework struct {
-  Checkpoint         bool                       `json:"checkpoint,omitempty"`
-  CompletedExecutors []*MesosCompletedExecutors `json:"completed_executors,omitempty"`
-  Executors          []*MesosExecutors          `json:"executors,omitempty"`
-  FailoverTimeout    int64                      `json:"failover_timeout,omitempty"`
-  Hostname           string                     `json:"hostname,omitempty"`
-  ID                 string                     `json:"id,omitempty"`
-  Name               string                     `json:"name,omitempty"`
-  Role               string                     `json:"role,omitempty"`
-  User               string                     `json:"user,omitempty"`
+  Checkpoint         bool              `json:"checkpoint,omitempty"`
+  FailoverTimeout    int64             `json:"failover_timeout,omitempty"`
+  Hostname           string            `json:"hostname,omitempty"`
+  ID                 string            `json:"id,omitempty"`
+  Name               string            `json:"name,omitempty"`
+  Role               string            `json:"role,omitempty"`
+  User               string            `json:"user,omitempty"`
+  CompletedExecutors []*MesosExecutors `json:"completed_executors,omitempty"`
+  Executors          []*MesosExecutors `json:"executors,omitempty"`
 }
 
 type MesosSlaveFlags struct {
@@ -98,26 +98,26 @@ type MesosSlaveFlags struct {
 }
 
 type MesosSlaveState struct {
-  Attributes          interface{}                `json:"attributes,omitempty"`
-  BuildDate           string                     `json:"build_date,omitempty"`
-  BuildTime           int64                      `json:"build_time,omitempty"`
-  BuildUser           string                     `json:"build_user,omitempty"`
-  CompletedFrameworks []*MesosCompletedFramework `json:"completed_frameworks,omitempty"`
-  FailedTasks         int64                      `json:"failed_tasks,omitempty"`
-  FinishedTasks       int64                      `json:"finished_tasks,omitempty"`
-  Flags               *MesosSlaveFlags           `json:"flags,omitempty"`
-  Frameworks          []*MesosFramework          `json:"frameworks,omitempty"`
-  Hostname            string                     `json:"hostname,omitempty"`
-  ID                  string                     `json:"id,omitempty"`
-  KilledTasks         int64                      `json:"killed_tasks,omitempty"`
-  LostTasks           int64                      `json:"lost_tasks,omitempty"`
-  MasterHostname      string                     `json:"master_hostname,omitempty"`
-  Pid                 string                     `json:"pid,omitempty"`
-  Resources           interface{}                `json:"resources,omitempty"`
-  StagedTasks         int64                      `json:"staged_tasks,omitempty"`
-  StartTime           float64                    `json:"start_time,omitempty"`
-  StartedTasks        int64                      `json:"started_tasks,omitempty"`
-  Version             string                     `json:"version,omitempty"`
+  Attributes          interface{}       `json:"attributes,omitempty"`
+  BuildDate           string            `json:"build_date,omitempty"`
+  BuildTime           int64             `json:"build_time,omitempty"`
+  BuildUser           string            `json:"build_user,omitempty"`
+  CompletedFrameworks []*MesosFramework `json:"completed_frameworks,omitempty"`
+  FailedTasks         int64             `json:"failed_tasks,omitempty"`
+  FinishedTasks       int64             `json:"finished_tasks,omitempty"`
+  Flags               *MesosSlaveFlags  `json:"flags,omitempty"`
+  Frameworks          []*MesosFramework `json:"frameworks,omitempty"`
+  Hostname            string            `json:"hostname,omitempty"`
+  ID                  string            `json:"id,omitempty"`
+  KilledTasks         int64             `json:"killed_tasks,omitempty"`
+  LostTasks           int64             `json:"lost_tasks,omitempty"`
+  MasterHostname      string            `json:"master_hostname,omitempty"`
+  Pid                 string            `json:"pid,omitempty"`
+  Resources           interface{}       `json:"resources,omitempty"`
+  StagedTasks         int64             `json:"staged_tasks,omitempty"`
+  StartTime           float64           `json:"start_time,omitempty"`
+  StartedTasks        int64             `json:"started_tasks,omitempty"`
+  Version             string            `json:"version,omitempty"`
 }
 
 type MesosSlaveStats struct {
