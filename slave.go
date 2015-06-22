@@ -56,15 +56,15 @@ type MesosExecutors struct {
 }
 
 type MesosFramework struct {
-  Checkpoint         bool              `json:"checkpoint,omitempty"`
-  CompletedExecutors []interface{}     `json:"completed_executors,omitempty"`
-  Executors          []*MesosExecutors `json:"executors,omitempty"`
-  FailoverTimeout    int64             `json:"failover_timeout,omitempty"`
-  Hostname           string            `json:"hostname,omitempty"`
-  ID                 string            `json:"id,omitempty"`
-  Name               string            `json:"name,omitempty"`
-  Role               string            `json:"role,omitempty"`
-  User               string            `json:"user,omitempty"`
+  Checkpoint         bool                       `json:"checkpoint,omitempty"`
+  CompletedExecutors []*MesosCompletedExecutors `json:"completed_executors,omitempty"`
+  Executors          []*MesosExecutors          `json:"executors,omitempty"`
+  FailoverTimeout    int64                      `json:"failover_timeout,omitempty"`
+  Hostname           string                     `json:"hostname,omitempty"`
+  ID                 string                     `json:"id,omitempty"`
+  Name               string                     `json:"name,omitempty"`
+  Role               string                     `json:"role,omitempty"`
+  User               string                     `json:"user,omitempty"`
 }
 
 type MesosSlaveFlags struct {
