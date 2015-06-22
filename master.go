@@ -6,7 +6,7 @@ import (
 )
 
 type MesosMasterTasks struct {
-  Tasks []*MesosTasks `json:"tasks,omitempty"`
+  Tasks []*MesosTask `json:"tasks,omitempty"`
 }
 
 type MesosMasterStats struct {
@@ -136,7 +136,7 @@ type MesosOffers struct {
   Resources   interface{} `json:"resources,omitempty"`
 }
 
-type MesosTasks struct {
+type MesosTask struct {
   ExecutorId  string         `json:"executor_id,omitempty"`
   FrameworkId string         `json:"framework_id,omitempty"`
   Id          string         `json:"id,omitempty"`
@@ -161,11 +161,11 @@ type MesosMasterFrameworks struct {
   UnregisteredTime float64        `json:"unregistered_time,omitempty"`
   User             string         `json:"user,omitempty"`
   WebuiUrl         string         `json:"webui_url,omitempty"`
-  CompletedTasks   []*MesosTasks  `json:"completed_tasks,omitempty"`
+  CompletedTasks   []*MesosTask   `json:"completed_tasks,omitempty"`
   OfferedResources interface{}    `json:"offered_resources,omitempty"`
   Offers           []*MesosOffers `json:"offers,omitempty"`
   Resources        interface{}    `json:"resources,omitempty"`
-  Tasks            []*MesosTasks  `json:"tasks,omitempty"`
+  Tasks            []*MesosTask   `json:"tasks,omitempty"`
   UsedResources    interface{}    `json:"used_resources,omitempty"`
 }
 
