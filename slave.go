@@ -7,30 +7,6 @@ import (
 
 // Mesos version 0.22.0 compatible
 
-// type MesosCompletedExecutors struct {
-//   Container      string        `json:"container,omitempty"`
-//   Directory      string        `json:"directory,omitempty"`
-//   ID             string        `json:"id,omitempty"`
-//   Name           string        `json:"name,omitempty"`
-//   Source         string        `json:"source,omitempty"`
-//   Resources      interface{}   `json:"resources,omitempty"`
-//   CompletedTasks []*MesosTask `json:"completed_tasks,omitempty"`
-//   QueuedTasks    []*MesosTask `json:"queued_tasks,omitempty"`
-//   Tasks          []*MesosTask `json:"tasks,omitempty"`
-// }
-
-// type MesosCompletedFramework struct {
-//   Checkpoint         bool                       `json:"checkpoint,omitempty"`
-//   FailoverTimeout    int64                      `json:"failover_timeout,omitempty"`
-//   Hostname           string                     `json:"hostname,omitempty"`
-//   ID                 string                     `json:"id,omitempty"`
-//   Name               string                     `json:"name,omitempty"`
-//   Role               string                     `json:"role,omitempty"`
-//   User               string                     `json:"user,omitempty"`
-//   CompletedExecutors []*MesosCompletedExecutors `json:"completed_executors,omitempty"`
-//   Executors          []*MesosExecutors          `json:"executors,omitempty"`
-// }
-
 type MesosExecutors struct {
   Container      string       `json:"container,omitempty"`
   Directory      string       `json:"directory,omitempty"`
