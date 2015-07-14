@@ -8,6 +8,7 @@ const (
   MesosSlaveStatsURI             = "/slave(1)/stats.json"
   MesosSlaveHealthURI            = "/slave(1)/health"
   MesosSlaveMonitorStatisticsURI = "/monitor/statistics.json"
+  MesosSlaveMetricsSnapshotURI   = "/metrics/snapshot"
 
   MesosMasterRegistrarURI       = "/registrar(1)/registry"
   MesosMasterMetricsSnapshotURI = "/metrics/snapshot"

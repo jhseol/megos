@@ -7,30 +7,6 @@ import (
 
 // Mesos version 0.22.0 compatible
 
-// type MesosCompletedExecutors struct {
-//   Container      string        `json:"container,omitempty"`
-//   Directory      string        `json:"directory,omitempty"`
-//   ID             string        `json:"id,omitempty"`
-//   Name           string        `json:"name,omitempty"`
-//   Source         string        `json:"source,omitempty"`
-//   Resources      interface{}   `json:"resources,omitempty"`
-//   CompletedTasks []*MesosTask `json:"completed_tasks,omitempty"`
-//   QueuedTasks    []*MesosTask `json:"queued_tasks,omitempty"`
-//   Tasks          []*MesosTask `json:"tasks,omitempty"`
-// }
-
-// type MesosCompletedFramework struct {
-//   Checkpoint         bool                       `json:"checkpoint,omitempty"`
-//   FailoverTimeout    int64                      `json:"failover_timeout,omitempty"`
-//   Hostname           string                     `json:"hostname,omitempty"`
-//   ID                 string                     `json:"id,omitempty"`
-//   Name               string                     `json:"name,omitempty"`
-//   Role               string                     `json:"role,omitempty"`
-//   User               string                     `json:"user,omitempty"`
-//   CompletedExecutors []*MesosCompletedExecutors `json:"completed_executors,omitempty"`
-//   Executors          []*MesosExecutors          `json:"executors,omitempty"`
-// }
-
 type MesosExecutors struct {
   Container      string       `json:"container,omitempty"`
   Directory      string       `json:"directory,omitempty"`
@@ -171,6 +147,43 @@ type MesosSlaveStats struct {
   ValidStatusUpdates            int64   `json:"valid_status_updates,omitempty"`
 }
 
+type MesosSlaveMetricsSnapshot struct {
+  SlaveCpusPercent              float64 `json:"slave/cpus_percent,omitempty"`
+  SlaveCpusTotal                float64 `json:"slave/cpus_total,omitempty"`
+  SlaveCpusUsed                 float64 `json:"slave/cpus_used,omitempty"`
+  SlaveDiskPercent              float64 `json:"slave/disk_percent,omitempty"`
+  SlaveDiskTotal                float64 `json:"slave/disk_total,omitempty"`
+  SlaveDiskUsed                 float64 `json:"slave/disk_used,omitempty"`
+  SlaveExecutorsRegistering     int64   `json:"slave/executors_registering,omitempty"`
+  SlaveExecutorsRunning         int64   `json:"slave/executors_running,omitempty"`
+  SlaveExecutorsTerminated      int64   `json:"slave/executors_terminated,omitempty"`
+  SlaveExecutorsTerminating     int64   `json:"slave/executors_terminating,omitempty"`
+  SlaveFrameworksActive         int64   `json:"slave/frameworks_active,omitempty"`
+  SlaveInvalidFrameworkMessages int64   `json:"slave/invalid_framework_messages,omitempty"`
+  SlaveInvalidStatusUpdates     int64   `json:"slave/invalid_status_updates,omitempty"`
+  SlaveMemPercent               float64 `json:"slave/mem_percent,omitempty"`
+  SlaveMemTotal                 float64 `json:"slave/mem_total,omitempty"`
+  SlaveMemUsed                  float64 `json:"slave/mem_used,omitempty"`
+  SlaveRecoveryErrors           int64   `json:"slave/recovery_errors,omitempty"`
+  SlaveRegistered               int64   `json:"slave/registered,omitempty"`
+  SlaveTasksFailed              int64   `json:"slave/tasks_failed,omitempty"`
+  SlaveTasksFinished            int64   `json:"slave/tasks_finished,omitempty"`
+  SlaveTasksKilled              int64   `json:"slave/tasks_killed,omitempty"`
+  SlaveTasksLost                int64   `json:"slave/tasks_lost,omitempty"`
+  SlaveTasksRunning             int64   `json:"slave/tasks_running,omitempty"`
+  SlaveTasksStaging             int64   `json:"slave/tasks_staging,omitempty"`
+  SlaveTasksStarting            int64   `json:"slave/tasks_starting,omitempty"`
+  SlaveUptimeSecs               float64 `json:"slave/uptime_secs,omitempty"`
+  SlaveValidFrameworkMessages   int64   `json:"slave/valid_framework_messages,omitempty"`
+  SlaveValidStatusUpdates       int64   `json:"slave/valid_status_updates,omitempty"`
+  SystemCpusTotal               int64   `json:"system/cpus_total,omitempty"`
+  SystemLoad15min               float64 `json:"system/load_15min,omitempty"`
+  SystemLoad1min                float64 `json:"system/load_1min,omitempty"`
+  SystemLoad5min                float64 `json:"system/load_5min,omitempty"`
+  SystemMemFreeBytes            float64 `json:"system/mem_free_bytes,omitempty"`
+  SystemMemTotalBytes           float64 `json:"system/mem_total_bytes,omitempty"`
+}
+
 type MesosMonitorStatistics struct {
   CpusLimit          float64 `json:"cpus_limit,omitempty"`
   CpusSystemTimeSecs float64 `json:"cpus_system_time_secs,omitempty"`
@@ -251,6 +264,21 @@ func (ms *MesosSlaveClient) MesosSlaveState() (*MesosSlaveState, error) {
   s := &MesosSlaveState{}
   if err := json.Unmarshal(body, s); err != nil {
     fmt.Printf("%v: %s\n", err, string(body))
+    return nil, err
+  }
+
+  return s, nil
+}
+
+func (ms *MesosSlaveClient) MesosSlaveMetricsSnapshot() (*MesosSlaveMetricsSnapshot, error) {
+  body, err := httpGetRequest(ms.opts.Host+MesosSlaveMetricsSnapshotURI, Query{})
+  if err != nil {
+    return nil, err
+  }
+
+  s := &MesosSlaveMetricsSnapshot{}
+  if err := json.Unmarshal(body, s); err != nil {
+    fmt.Errorf("%v\n", err)
     return nil, err
   }
 
