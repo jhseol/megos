@@ -137,7 +137,7 @@ func (e *periodicStatsExporter) Collect(ch chan<- prometheus.Metric) {
 }
 
 func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, tm taskMetrics, wg *sync.WaitGroup) {
-  var taskID string
+  var taskId string
   var cpusLimit float64
   var cpusSystemTimeSecs float64
   var cpusUserTimeSecs float64
@@ -157,7 +157,7 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, tm t
   }
 
   for _, stat := range *stats {
-    taskID = stat.Source
+    taskId = stat.Source
     cpusLimit = stat.Statistics.CpusLimit
     cpusSystemTimeSecs = stat.Statistics.CpusSystemTimeSecs
     cpusUserTimeSecs = stat.Statistics.CpusUserTimeSecs
@@ -165,7 +165,7 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, tm t
     memRssBytes = stat.Statistics.MemRssBytes
     timestamp = stat.Statistics.Timestamp
 
-    m, ok := tm[taskID]
+    m, ok := tm[taskId]
     if ok {
       cpusSystemUsage = (cpusSystemTimeSecs - m.cpusSystemTimeSecs) / (timestamp - m.timestamp)
       cpusUserUsage = (cpusUserTimeSecs - m.cpusUserTimeSecs) / (timestamp - m.timestamp)
@@ -175,23 +175,23 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, tm t
         cpusUsrUsageDesc,
         prometheus.GaugeValue,
         cpusUserUsage,
-        stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
+        stat.Source, hostname, stat.FrameworkId, stat.ExecutorId,
       )
       metricsChan <- prometheus.MustNewConstMetric(
         cpusSysUsageDesc,
         prometheus.GaugeValue,
         cpusSystemUsage,
-        stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
+        stat.Source, hostname, stat.FrameworkId, stat.ExecutorId,
       )
       metricsChan <- prometheus.MustNewConstMetric(
         cpusTotalUsageDesc,
         prometheus.GaugeValue,
         cpusTotalUsage,
-        stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
+        stat.Source, hostname, stat.FrameworkId, stat.ExecutorId,
       )
     }
 
-    tm[taskID] = taskMetric{
+    tm[taskId] = taskMetric{
       cpusSystemTimeSecs: cpusSystemTimeSecs,
       cpusUserTimeSecs:   cpusUserTimeSecs,
       timestamp:          timestamp,
@@ -201,31 +201,31 @@ func (e *periodicStatsExporter) fetch(metricsChan chan<- prometheus.Metric, tm t
       cpusLimitDesc,
       prometheus.GaugeValue,
       cpusLimit,
-      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
+      stat.Source, hostname, stat.FrameworkId, stat.ExecutorId,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       cpusSysDesc,
       prometheus.CounterValue,
       cpusSystemTimeSecs,
-      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
+      stat.Source, hostname, stat.FrameworkId, stat.ExecutorId,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       cpusUsrDesc,
       prometheus.CounterValue,
       cpusUserTimeSecs,
-      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
+      stat.Source, hostname, stat.FrameworkId, stat.ExecutorId,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       memLimitDesc,
       prometheus.GaugeValue,
       float64(memLimitBytes),
-      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
+      stat.Source, hostname, stat.FrameworkId, stat.ExecutorId,
     )
     metricsChan <- prometheus.MustNewConstMetric(
       memRssDesc,
       prometheus.GaugeValue,
       float64(memRssBytes),
-      stat.Source, hostname, stat.FrameworkID, stat.ExecutorID,
+      stat.Source, hostname, stat.FrameworkId, stat.ExecutorId,
     )
   }
 }

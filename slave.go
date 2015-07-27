@@ -10,7 +10,7 @@ import (
 type MesosExecutors struct {
   Container      string       `json:"container,omitempty"`
   Directory      string       `json:"directory,omitempty"`
-  ID             string       `json:"id,omitempty"`
+  Id             string       `json:"id,omitempty"`
   Name           string       `json:"name,omitempty"`
   Source         string       `json:"source,omitempty"`
   Resources      interface{}  `json:"resources,omitempty"`
@@ -23,7 +23,7 @@ type MesosFramework struct {
   Checkpoint         bool              `json:"checkpoint,omitempty"`
   FailoverTimeout    int64             `json:"failover_timeout,omitempty"`
   Hostname           string            `json:"hostname,omitempty"`
-  ID                 string            `json:"id,omitempty"`
+  Id                 string            `json:"id,omitempty"`
   Name               string            `json:"name,omitempty"`
   Role               string            `json:"role,omitempty"`
   User               string            `json:"user,omitempty"`
@@ -84,7 +84,7 @@ type MesosSlaveState struct {
   Flags               *MesosSlaveFlags  `json:"flags,omitempty"`
   Frameworks          []*MesosFramework `json:"frameworks,omitempty"`
   Hostname            string            `json:"hostname,omitempty"`
-  ID                  string            `json:"id,omitempty"`
+  Id                  string            `json:"id,omitempty"`
   KilledTasks         int64             `json:"killed_tasks,omitempty"`
   LostTasks           int64             `json:"lost_tasks,omitempty"`
   MasterHostname      string            `json:"master_hostname,omitempty"`
@@ -194,9 +194,9 @@ type MesosMonitorStatistics struct {
 }
 
 type MesosMonitor struct {
-  ExecutorID   string                  `json:"executor_id,omitempty"`
+  ExecutorId   string                  `json:"executor_id,omitempty"`
   ExecutorName string                  `json:"executor_name,omitempty"`
-  FrameworkID  string                  `json:"framework_id,omitempty"`
+  FrameworkId  string                  `json:"framework_id,omitempty"`
   Source       string                  `json:"source,omitempty"`
   Statistics   *MesosMonitorStatistics `json:"statistics,omitempty"`
 }

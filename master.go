@@ -372,7 +372,7 @@ type MesosSlaveInfo struct {
   Checkpoint bool          `json:"checkpoint,omitempty"`
   Hostname   string        `json:"hostname,omitempty"`
   Port       int64         `json:"port,omitempty"`
-  ID         *MesosSlaveID `json:"id,omitempty"`
+  Id         *MesosSlaveId `json:"id,omitempty"`
   // Attributes []*MesosSlaveAttribute `json:"attributes,omitempty"`
   // Resources  []*MesosSlaveResources `json:"resources,omitempty"`
   Attributes []interface{} `json:"attributes,omitempty"`
@@ -400,7 +400,7 @@ type MesosSlaveResourceRange struct {
   End   int64 `json:"end,omitempty"`
 }
 
-type MesosSlaveID struct {
+type MesosSlaveId struct {
   Value string `json:"value,omitempty"`
 }
 
