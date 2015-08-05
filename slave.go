@@ -5,18 +5,49 @@ import (
   "fmt"
 )
 
-// Mesos version 0.22.0 compatible
-
+// Mesos version 0.23.0 compatible
 type MesosExecutors struct {
-  Container      string       `json:"container,omitempty"`
-  Directory      string       `json:"directory,omitempty"`
-  Id             string       `json:"id,omitempty"`
-  Name           string       `json:"name,omitempty"`
-  Source         string       `json:"source,omitempty"`
-  Resources      interface{}  `json:"resources,omitempty"`
-  CompletedTasks []*MesosTask `json:"completed_tasks,omitempty"`
-  QueuedTasks    []*MesosTask `json:"queued_tasks,omitempty"`
-  Tasks          []*MesosTask `json:"tasks,omitempty"`
+  Container      string             `json:"container,omitempty"`
+  Directory      string             `json:"directory,omitempty"`
+  Id             string             `json:"id,omitempty"`
+  Name           string             `json:"name,omitempty"`
+  Source         string             `json:"source,omitempty"`
+  Resources      interface{}        `json:"resources,omitempty"`
+  CompletedTasks []*MesosTask       `json:"completed_tasks,omitempty"`
+  QueuedTasks    []*MesosQueuedTask `json:"queued_tasks,omitempty"`
+  Tasks          []*MesosTask       `json:"tasks,omitempty"`
+}
+
+type MesosEnvironment struct {
+  Variables []struct {
+    Name  string `json:"name,omitempty"`
+    Value string `json:"value,omitempty"`
+  } `json:"variables,omitempty"`
+}
+
+type MesosCommand struct {
+  Argv        []interface{}     `json:"argv,omitempty"`
+  Uris        []interface{}     `json:"uris,omitempty"`
+  Environment *MesosEnvironment `json:"environment,omitempty"`
+  Value       string            `json:"value,omitempty"`
+}
+
+type MesosExecutorID struct {
+  Command     []*MesosCommand `json:"command,omitempty"`
+  Data        string          `json:"data,omitempty"`
+  ExecutorID  string          `json:"executor_id,omitempty"`
+  FrameworkID string          `json:"framework_id,omitempty"`
+  Name        string          `json:"name,omitempty"`
+  Resources   interface{}     `json:"resources,omitempty"`
+}
+
+type MesosQueuedTask struct {
+  Data       string           `json:"data,omitempty"`
+  ExecutorID *MesosExecutorID `json:"executor_id,omitempty"`
+  ID         string           `json:"id,omitempty"`
+  Name       string           `json:"name,omitempty"`
+  Resources  interface{}      `json:"resources,omitempty"`
+  SlaveID    string           `json:"slave_id,omitempty"`
 }
 
 type MesosFramework struct {
