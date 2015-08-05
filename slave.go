@@ -34,22 +34,22 @@ type MesosCommand struct {
   Value       string            `json:"value,omitempty"`
 }
 
-type MesosExecutorID struct {
+type MesosExecutorId struct {
   Command     *MesosCommand   `json:"command,omitempty"`
   Data        string          `json:"data,omitempty"`
-  ExecutorID  string          `json:"executor_id,omitempty"`
-  FrameworkID string          `json:"framework_id,omitempty"`
+  ExecutorId  string          `json:"executor_id,omitempty"`
+  FrameworkId string          `json:"framework_id,omitempty"`
   Name        string          `json:"name,omitempty"`
   Resources   interface{}     `json:"resources,omitempty"`
 }
 
 type MesosQueuedTask struct {
   Data       string           `json:"data,omitempty"`
-  ExecutorID *MesosExecutorID `json:"executor_id,omitempty"`
-  ID         string           `json:"id,omitempty"`
+  ExecutorId *MesosExecutorId `json:"executor_id,omitempty"`
+  Id         string           `json:"id,omitempty"`
   Name       string           `json:"name,omitempty"`
   Resources  interface{}      `json:"resources,omitempty"`
-  SlaveID    string           `json:"slave_id,omitempty"`
+  SlaveId    string           `json:"slave_id,omitempty"`
 }
 
 type MesosFramework struct {
