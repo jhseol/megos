@@ -18,11 +18,13 @@ type MesosExecutors struct {
   Tasks          []*MesosTask       `json:"tasks,omitempty"`
 }
 
+type MesosVariable struct {
+  Name  string `json:"name,omitempty"`
+  Value string `json:"value,omitempty"`
+}
+
 type MesosEnvironment struct {
-  Variables []struct {
-    Name  string `json:"name,omitempty"`
-    Value string `json:"value,omitempty"`
-  } `json:"variables,omitempty"`
+  Variables []*MesosVariable  `json:"variables,omitempty"`
 }
 
 type MesosCommand struct {
@@ -33,7 +35,7 @@ type MesosCommand struct {
 }
 
 type MesosExecutorID struct {
-  Command     []*MesosCommand `json:"command,omitempty"`
+  Command     *MesosCommand   `json:"command,omitempty"`
   Data        string          `json:"data,omitempty"`
   ExecutorID  string          `json:"executor_id,omitempty"`
   FrameworkID string          `json:"framework_id,omitempty"`
