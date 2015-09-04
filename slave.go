@@ -34,6 +34,7 @@ type MesosCommand struct {
   Value       string            `json:"value,omitempty"`
 }
 
+// Not used
 type MesosExecutorId struct {
   Command     *MesosCommand   `json:"command,omitempty"`
   Data        string          `json:"data,omitempty"`
@@ -45,7 +46,7 @@ type MesosExecutorId struct {
 
 type MesosQueuedTask struct {
   Data       string           `json:"data,omitempty"`
-  ExecutorId *MesosExecutorId `json:"executor_id,omitempty"`
+  ExecutorId interface{}      `json:"executor_id,omitempty"`
   Id         string           `json:"id,omitempty"`
   Name       string           `json:"name,omitempty"`
   Resources  interface{}      `json:"resources,omitempty"`
