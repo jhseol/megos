@@ -55,7 +55,7 @@ type MesosQueuedTask struct {
 
 type MesosFramework struct {
   Checkpoint         bool              `json:"checkpoint,omitempty"`
-  FailoverTimeout    int64             `json:"failover_timeout,omitempty"`
+  FailoverTimeout    float64           `json:"failover_timeout,omitempty"`
   Hostname           string            `json:"hostname,omitempty"`
   Id                 string            `json:"id,omitempty"`
   Name               string            `json:"name,omitempty"`
