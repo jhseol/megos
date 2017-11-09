@@ -110,7 +110,6 @@ type MesosSlaveFlags struct {
 type MesosSlaveState struct {
   Attributes          interface{}       `json:"attributes,omitempty"`
   BuildDate           string            `json:"build_date,omitempty"`
-  BuildTime           int64             `json:"build_time,omitempty"`
   BuildUser           string            `json:"build_user,omitempty"`
   CompletedFrameworks []*MesosFramework `json:"completed_frameworks,omitempty"`
   FailedTasks         int64             `json:"failed_tasks,omitempty"`
